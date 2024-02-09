@@ -28,7 +28,7 @@ export default {
         console.log( res.data )
 
         // inserisco i dati dentro array
-        store.CharactersList = res.data.result
+        store.CharactersList = res.data.data
 
         store.loading = false
 
