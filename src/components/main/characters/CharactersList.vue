@@ -1,11 +1,13 @@
 <template>
     <div class="row">
-        <characterCard/>
+        <characterCard v-for="(element, index) in store.CharactersList"
+        :key="index"/>
     </div>
 </template>
 
 <script>
-import characterCard from './characterCard.vue';
+import characterCard from './CharacterCard.vue'
+import { store } from '../../../store.js'
 
     export default {
         name:"CharactersList",
@@ -14,7 +16,9 @@ import characterCard from './characterCard.vue';
         },
         data () {
 
-            return{}
+            return{
+                store
+            }
         }
     }
 </script>
