@@ -18,5 +18,15 @@
 </script>
 
 <style lang="scss" scoped>
+header{
+    background-color: white;
+    div{
+        background-color: white;
+        h1{
+            background-color: white;
 
+        }
+
+    }
+}
 </style>

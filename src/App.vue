@@ -54,5 +54,7 @@ export default {
 </template>
 
 <style lang="scss">
-
+*{
+  background-color: #d48f38;
+}
 </style>

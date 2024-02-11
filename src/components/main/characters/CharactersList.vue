@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        
 
         <characterCard v-for="(element, index) in store.CharactersList"
         :key="index"
