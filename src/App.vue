@@ -7,7 +7,7 @@ import { store } from './store'
 import axios from 'axios'
 
 export default {
-  components:{
+  components: {
     AppHeader,
     AppSearch,
     CharactersList
@@ -18,25 +18,34 @@ export default {
     }
   },
   methods: {
-    getCharacters(){
-
+    getCharacters() {
       store.loading = true
 
       axios
-      .get( store.apiUrl )
-      .then( res => {
-        console.log( res.data )
+        .get(store.apiUrl)
+        .then(res => {
+          console.log(res.data)
 
-        // inserisco i dati dentro array
-        store.CharactersList = res.data.data
+          // Inserisco i dati dentro l'array
+          store.CharactersList = res.data.data
 
-        store.loading = false
+          store.loading = false
+        })
+    },
+    getArchetypes() {
+      axios
+        .get(store.apiUrlArchetypes)
+        .then(res => {
+          console.log(res.data)
 
-      })
+          // Inserisco i dati dentro l'array
+          store.Archetypes = res.data
+        })
     }
   },
   mounted() {
     this.getCharacters()
+    this.getArchetypes()
   }
 }
 </script>
@@ -44,17 +53,16 @@ export default {
 <template>
   <AppHeader/>
   <main class="container text-center">
-    <div v-if=" (store.loading) " class="spinner-border text-light" role="status">
-    <span class="visually-hidden">Loading...</span>
+    <div v-if="store.loading" class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
     <AppSearch/>
     <CharactersList/>
   </main>
-
 </template>
 
 <style lang="scss">
-*{
+* {
   background-color: #d48f38;
 }
 </style>

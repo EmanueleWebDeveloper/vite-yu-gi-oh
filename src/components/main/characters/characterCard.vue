@@ -1,4 +1,5 @@
 <template> 
+
         <div class="col-3" >
             <div class="border border-black colore">
                 <figure class="figure">
