@@ -1,16 +1,13 @@
 <script>
-import AppHeader from './components/Header/AppHeader.vue'
-import AppSearch from './components/main/AppSearch.vue'
-import CharactersList from './components/main/Characters/CharactersList.vue'
-
-import { store } from './store'
+import AppHeader from './components/AppHeader.vue'
+import AppMain from './components/AppMain.vue'
 import axios from 'axios'
+import { store } from './store'
 
 export default {
   components: {
     AppHeader,
-    AppSearch,
-    CharactersList
+    AppMain
   },
   data() {
     return {
@@ -18,51 +15,47 @@ export default {
     }
   },
   methods: {
-    getCharacters() {
+    getCards() {
+
       store.loading = true
 
+      store.apiUrl = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
+
+      if (store.selectValue !== "all") {
+        store.apiUrl += `?archetype=${store.selectValue}`
+      } else {
+        store.apiUrl = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
+      }
+
       axios
-        .get(store.apiUrl)
+        .get(store.apiArchetype)
         .then(res => {
-          console.log(res.data)
-
-          // Inserisco i dati dentro l'array
-          store.CharactersList = res.data.data
-
-          store.loading = false
+          store.cardsArchetype = res.data
         })
+
+      setTimeout(() => {
+        axios
+          .get(store.apiUrl)
+          .then(res => {
+            console.log(res.data)
+            store.yugiCards = res.data.data
+
+            store.loading = false
+          })
+      }, 2000)
     },
-    getArchetypes() {
-      axios
-        .get(store.apiUrlArchetypes)
-        .then(res => {
-          console.log(res.data)
-
-          // Inserisco i dati dentro l'array
-          store.Archetypes = res.data
-        })
-    }
   },
   mounted() {
-    this.getCharacters()
-    this.getArchetypes()
+    this.getCards()
   }
 }
 </script>
 
 <template>
-  <AppHeader/>
-  <main class="container text-center">
-    <div v-if="store.loading" class="spinner-border text-light" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <AppSearch/>
-    <CharactersList/>
-  </main>
+  <AppHeader />
+  <AppMain @filter="getCards" />
 </template>
 
 <style lang="scss">
-* {
-  background-color: #d48f38;
-}
+@use './style/general.scss' as *;
 </style>
